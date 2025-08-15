@@ -1,6 +1,6 @@
 import { words } from "./words";
 export function getFarewellText(language) {
-  const opitons = [
+  const options = [
     `Farewell, ${language}`,
     `Adios, ${language}`,
     `R.I.P., ${language}`,

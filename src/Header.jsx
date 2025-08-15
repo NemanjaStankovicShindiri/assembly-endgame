@@ -1,4 +1,4 @@
-export default function Header() {
+export default function Header({ message }) {
   return (
     <header>
       <div>
@@ -8,7 +8,7 @@ export default function Header() {
           from Assembly!
         </p>
       </div>
-      <div>MESSAGE</div>
+      <div>{message}</div>
     </header>
   );
 }

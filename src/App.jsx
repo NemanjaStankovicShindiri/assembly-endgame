@@ -4,10 +4,11 @@ import Languages from "/src/Languages";
 import LetterBoxes from "/src/LetterBoxes";
 import Alphabet from "/src/Alphabet";
 import React from "react";
-import { getRandomWord } from "../utils/word";
+import { getRandomWord, getFarewellText } from "../utils/word";
 import { initializeLanguages, initializeKeyboard } from "/utils/functions";
 
 export default function App() {
+  const [message, setMessage] = React.useState("");
   const [languages, setLanguages] = React.useState(initializeLanguages());
   const [keyboard, setKeyboard] = React.useState(initializeKeyboard());
   const [word, setWord] = React.useState(
@@ -31,7 +32,7 @@ export default function App() {
         return updated;
       });
     }
-    console.log(languages, languageToChange);
+    return languageToChange;
   }
   function handleLetterGuess(letter) {
     setWord((prev) =>
@@ -46,7 +47,9 @@ export default function App() {
           if (containsLetter) {
             return { ...item, status: "correct" };
           } else {
-            deleteLanguage();
+            const languageId = deleteLanguage();
+            if (languageId != -1)
+              setMessage(getFarewellText(languages[languageId].value));
             return { ...item, status: "incorrect" };
           }
         } else return item;
@@ -55,7 +58,7 @@ export default function App() {
   }
   return (
     <>
-      <Header />
+      <Header message={message} />
       <Languages languages={languages} />
       <LetterBoxes word={word} />
       <Alphabet
