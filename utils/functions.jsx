@@ -10,20 +10,8 @@ export function initializeLanguages() {
     "Ruby",
     "Assembly",
   ];
-  const allColors = [
-    "#D02B2B",
-    "#328AF1",
-    "#F4EB13",
-    "#2ED3E9",
-    "#298EC6",
-    "#599137",
-    "#FFD742",
-    "#D02B2B",
-    "#2D519F",
-  ];
   return allLanguages.map((value, index) => ({
     value,
-    color: allColors[index],
     dead: false,
   }));
 }

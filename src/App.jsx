@@ -16,6 +16,23 @@ export default function App() {
       .split("")
       .map((letter) => ({ letter, guessed: false }))
   );
+
+  function deleteLanguage() {
+    const languageToChange = languages.findIndex((l) => l.dead == false);
+    if (languageToChange >= 0) {
+      setLanguages((prev) => {
+        const updated = [...prev];
+        console.log("Pre ", updated);
+        updated[languageToChange] = {
+          ...updated[languageToChange],
+          dead: true,
+        };
+        console.log("Posle", updated);
+        return updated;
+      });
+    }
+    console.log(languages, languageToChange);
+  }
   function handleLetterGuess(letter) {
     setWord((prev) =>
       prev.map((item) =>
@@ -26,9 +43,12 @@ export default function App() {
       prev.map((item) => {
         if (item.letter == letter.letter) {
           const containsLetter = word.some((l) => l.letter == letter.letter);
-          return containsLetter
-            ? { ...item, status: "correct" }
-            : { ...item, status: "incorrect" };
+          if (containsLetter) {
+            return { ...item, status: "correct" };
+          } else {
+            deleteLanguage();
+            return { ...item, status: "incorrect" };
+          }
         } else return item;
       })
     );

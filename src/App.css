@@ -44,3 +44,52 @@
 .invisible {
   color: transparent;
 }
+
+.destroyed {
+  color: black;
+}
+
+.lang-HTML {
+  background-color: #e2680f;
+  color: #f9f4da;
+}
+
+.lang-CSS {
+  background-color: #328af1;
+  color: #f9f4da;
+}
+
+.lang-Javascript {
+  background-color: #f4eb13;
+  color: #1e1e1e;
+}
+
+.lang-React {
+  background-color: #2ed3e9;
+  color: #1e1e1e;
+}
+
+.lang-Typescript {
+  background-color: #298ec6;
+  color: #f9f4da;
+}
+
+.lang-Node.js {
+  background-color: #599137;
+  color: #f9f4da;
+}
+
+.lang-Python {
+  background-color: #ffd742;
+  color: #1e1e1e;
+}
+
+.lang-Ruby {
+  background-color: #d02b2b;
+  color: #f9f4da;
+}
+
+.lang-Assembly {
+  background-color: #2d519f;
+  color: #f9f4da;
+}
