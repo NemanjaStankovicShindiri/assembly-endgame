@@ -8,7 +8,9 @@ export default function Header({ message }) {
           from Assembly!
         </p>
       </div>
-      <div>{message}</div>
+      <div className={message === "" ? "message invisibleMessage" : "message"}>
+        {message}
+      </div>
     </header>
   );
 }
