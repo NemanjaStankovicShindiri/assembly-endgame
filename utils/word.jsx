@@ -23,3 +23,10 @@ export function getRandomWord() {
   const index = Math.floor(Math.random() * words.length);
   return words[index];
 }
+
+export function getAndObjectifyWord() {
+  return getRandomWord()
+    .toUpperCase()
+    .split("")
+    .map((letter) => ({ letter, guessed: false }));
+}

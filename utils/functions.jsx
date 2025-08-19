@@ -32,3 +32,20 @@ export function checkStatus({ status }) {
       return "#EC5D49";
   }
 }
+
+export function deleteLanguage(languages, setLanguages) {
+  const languageToChange = languages.findIndex((l) => l.dead == false);
+  if (languageToChange >= 0) {
+    setLanguages((prev) => {
+      const updated = [...prev];
+      console.log("Pre ", updated);
+      updated[languageToChange] = {
+        ...updated[languageToChange],
+        dead: true,
+      };
+      console.log("Posle", updated);
+      return updated;
+    });
+  }
+  return languageToChange;
+}

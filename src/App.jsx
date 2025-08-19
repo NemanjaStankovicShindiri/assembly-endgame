@@ -3,37 +3,26 @@ import Header from "/src/Header";
 import Languages from "/src/Languages";
 import LetterBoxes from "/src/LetterBoxes";
 import Alphabet from "/src/Alphabet";
+import EndButton from "./EndButton";
 import React from "react";
-import { getRandomWord, getFarewellText } from "../utils/word";
-import { initializeLanguages, initializeKeyboard } from "/utils/functions";
+import { getAndObjectifyWord, getFarewellText } from "../utils/word";
+import {
+  initializeLanguages,
+  initializeKeyboard,
+  deleteLanguage,
+} from "/utils/functions";
 
 export default function App() {
   const [message, setMessage] = React.useState("");
+  const [gameEnded, setGameEnded] = React.useState("no");
   const [languages, setLanguages] = React.useState(initializeLanguages());
   const [keyboard, setKeyboard] = React.useState(initializeKeyboard());
-  const [word, setWord] = React.useState(
-    getRandomWord()
-      .toUpperCase()
-      .split("")
-      .map((letter) => ({ letter, guessed: false }))
-  );
+  const [word, setWord] = React.useState(getAndObjectifyWord());
+  React.useEffect(() => {
+    languages.every((l) => l.dead === true) && setGameEnded("lose");
+    word.every((item) => item.guessed === true) && setGameEnded("win");
+  }, [languages, word]);
 
-  function deleteLanguage() {
-    const languageToChange = languages.findIndex((l) => l.dead == false);
-    if (languageToChange >= 0) {
-      setLanguages((prev) => {
-        const updated = [...prev];
-        console.log("Pre ", updated);
-        updated[languageToChange] = {
-          ...updated[languageToChange],
-          dead: true,
-        };
-        console.log("Posle", updated);
-        return updated;
-      });
-    }
-    return languageToChange;
-  }
   function handleLetterGuess(letter) {
     setWord((prev) =>
       prev.map((item) =>
@@ -47,7 +36,7 @@ export default function App() {
           if (containsLetter) {
             return { ...item, status: "correct" };
           } else {
-            const languageId = deleteLanguage();
+            const languageId = deleteLanguage(languages, setLanguages);
             if (languageId != -1)
               setMessage(getFarewellText(languages[languageId].value));
             return { ...item, status: "incorrect" };
@@ -56,16 +45,26 @@ export default function App() {
       })
     );
   }
+  function resetGame() {
+    setMessage("");
+    setGameEnded("no");
+    setLanguages(initializeLanguages());
+    setKeyboard(initializeKeyboard());
+    setWord(getAndObjectifyWord());
+  }
+  console.log("app loaded");
   return (
     <>
-      <Header message={message} />
+      <Header gameEnded={gameEnded} message={message} />
       <Languages languages={languages} />
-      <LetterBoxes word={word} />
+      <LetterBoxes word={word} gameEnded={gameEnded} />
       <Alphabet
         handleLetterGuess={handleLetterGuess}
         keyboard={keyboard}
         setKeyboard={setKeyboard}
+        gameEnded={gameEnded}
       />
+      <EndButton onClick={resetGame} gameEnded={gameEnded}></EndButton>
     </>
   );
 }
