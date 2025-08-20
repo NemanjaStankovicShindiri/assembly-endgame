@@ -2,6 +2,10 @@ import React from "react";
 import { parseMessage } from "../utils/functions";
 
 export default React.memo(function Header({ gameEnded, message }) {
+  const messageObj = React.useMemo(
+    () => parseMessage(gameEnded, message),
+    [gameEnded, message]
+  );
   return (
     <header>
       <div>
