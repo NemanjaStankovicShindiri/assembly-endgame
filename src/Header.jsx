@@ -17,7 +17,7 @@ export default React.memo(function Header({ gameEnded, message }) {
       </div>
       <div
         className={
-          message == "" && gameEnded == "no"
+          message === "" && gameEnded === "no"
             ? "message invisibleMessage"
             : "message" + messageObj.messageColor
         }

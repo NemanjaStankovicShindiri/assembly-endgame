@@ -34,9 +34,9 @@ export function reducer(state, action) {
       return {
         ...state,
         keyboard: state.keyboard.map((item) => {
-          if (item.letter == action.payload) {
+          if (item.letter === action.payload) {
             const containsLetter = state.word.some(
-              (l) => l.letter == action.payload
+              (l) => l.letter === action.payload
             );
             if (containsLetter) {
               return { ...item, status: "correct" };

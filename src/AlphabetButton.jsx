@@ -8,7 +8,7 @@ export default React.memo(function AlphabetButton({
   return (
     <button
       className="clickableButton"
-      disabled={gameEnded != "no" || letterObject.status != "unchecked"}
+      disabled={gameEnded !== "no" || letterObject.status !== "unchecked"}
       key={letterObject.letter}
       style={{ backgroundColor: checkStatus(letterObject) }}
       onClick={() => {

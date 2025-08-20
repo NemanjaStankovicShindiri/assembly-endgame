@@ -5,7 +5,11 @@ export default React.memo(function LetterBoxes({ word, gameEnded }) {
       {word.map((item, id) => (
         <button
           className={
-            !item.guessed ? (gameEnded == "lose" ? "redText" : "invisible") : ""
+            !item.guessed
+              ? gameEnded === "lose"
+                ? "redText"
+                : "invisible"
+              : ""
           }
           key={id}
         >

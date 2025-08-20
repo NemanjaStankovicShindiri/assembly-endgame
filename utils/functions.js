@@ -56,7 +56,7 @@ export function checkStatus({ status }) {
 }
 
 export function deleteLanguageIndex(languages) {
-  return languages.findIndex((l) => l.dead == false);
+  return languages.findIndex((l) => l.dead === false);
 }
 
 export function resetGame(dispatch) {
