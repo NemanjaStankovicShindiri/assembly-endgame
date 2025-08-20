@@ -1,5 +1,5 @@
-export default function LetterBoxes({ word, gameEnded }) {
-  console.log("letters loaded");
+import React from "react";
+export default React.memo(function LetterBoxes({ word, gameEnded }) {
   return (
     <div className="letters">
       {word.map((item, id) => (
@@ -14,4 +14,4 @@ export default function LetterBoxes({ word, gameEnded }) {
       ))}
     </div>
   );
-}
+});

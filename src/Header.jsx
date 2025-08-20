@@ -1,23 +1,7 @@
-export default function Header({ gameEnded, message }) {
-  const messageToShow = [];
-  var messageColor = "";
-  switch (gameEnded) {
-    case "win":
-      messageColor = " messageGreen";
-      messageToShow.push("You win!");
-      messageToShow.push("Well done! 🎉");
-      break;
-    case "lose":
-      messageColor = " messageRed";
-      messageToShow.push("Game over!");
-      messageToShow.push("You lose! Better start learning Assembly 😭");
-      break;
-    case "no":
-      messageToShow.push(message);
-      messageColor = "";
-      break;
-  }
-  console.log("header loaded");
+import React from "react";
+import { parseMessage } from "../utils/functions";
+
+export default React.memo(function Header({ gameEnded, message }) {
   return (
     <header>
       <div>
@@ -31,16 +15,16 @@ export default function Header({ gameEnded, message }) {
         className={
           message == "" && gameEnded == "no"
             ? "message invisibleMessage"
-            : "message" + messageColor
+            : "message" + messageObj.messageColor
         }
       >
-        <p>{messageToShow[0]}</p>
-        {messageToShow[1] ? (
-          <p className="messageDetails">{messageToShow[1]}</p>
+        <p>{messageObj.messageToShow[0]}</p>
+        {messageObj.messageToShow[1] ? (
+          <p className="messageDetails">{messageObj.messageToShow[1]}</p>
         ) : (
           ""
         )}
       </div>
     </header>
   );
-}
+});

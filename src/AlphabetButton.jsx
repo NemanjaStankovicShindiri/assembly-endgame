@@ -1,11 +1,10 @@
-import { checkStatus } from "../utils/functions";
+import { checkStatus } from "../utils/functions.js";
 import React from "react";
 export default React.memo(function AlphabetButton({
   letterObject,
   handleLetterGuess,
   gameEnded,
 }) {
-  console.log("keyboard key");
   return (
     <button
       className="clickableButton"

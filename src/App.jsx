@@ -4,67 +4,40 @@ import Languages from "/src/Languages";
 import LetterBoxes from "/src/LetterBoxes";
 import Alphabet from "/src/Alphabet";
 import EndButton from "./EndButton";
-import React from "react";
-import { getAndObjectifyWord, getFarewellText } from "../utils/word";
-import {
-  initializeLanguages,
-  initializeKeyboard,
-  deleteLanguage,
-} from "/utils/functions";
+import React, { useReducer } from "react";
+import { reducer, getInitialState } from "/utils/reducer";
+import { resetGame } from "../utils/functions";
 
 export default function App() {
-  const [message, setMessage] = React.useState("");
-  const [gameEnded, setGameEnded] = React.useState("no");
-  const [languages, setLanguages] = React.useState(initializeLanguages());
-  const [keyboard, setKeyboard] = React.useState(initializeKeyboard());
-  const [word, setWord] = React.useState(getAndObjectifyWord());
+  const [state, dispatch] = React.useReducer(reducer, null, () =>
+    getInitialState()
+  );
   React.useEffect(() => {
-    languages.every((l) => l.dead === true) && setGameEnded("lose");
-    word.every((item) => item.guessed === true) && setGameEnded("win");
-  }, [languages, word]);
+    state.languages.findIndex((l) => l.dead === false) ===
+      state.languages.length - 1 &&
+      dispatch({ type: "SET_GAME_ENDED", payload: "lose" });
+    state.word.every((item) => item.guessed === true) &&
+      dispatch({ type: "SET_GAME_ENDED", payload: "win" });
+  }, [state.languages, state.word]);
 
-  function handleLetterGuess(letter) {
-    setWord((prev) =>
-      prev.map((item) =>
-        item.letter == letter.letter ? { ...item, guessed: true } : item
-      )
-    );
-    setKeyboard((prev) =>
-      prev.map((item) => {
-        if (item.letter == letter.letter) {
-          const containsLetter = word.some((l) => l.letter == letter.letter);
-          if (containsLetter) {
-            return { ...item, status: "correct" };
-          } else {
-            const languageId = deleteLanguage(languages, setLanguages);
-            if (languageId != -1)
-              setMessage(getFarewellText(languages[languageId].value));
-            return { ...item, status: "incorrect" };
-          }
-        } else return item;
-      })
-    );
-  }
-  function resetGame() {
-    setMessage("");
-    setGameEnded("no");
-    setLanguages(initializeLanguages());
-    setKeyboard(initializeKeyboard());
-    setWord(getAndObjectifyWord());
-  }
-  console.log("app loaded");
+  const handleLetterGuess = React.useCallback((letter) => {
+    dispatch({ type: "SET_WORD", payload: letter.letter });
+    dispatch({ type: "SET_KEYBOARD", payload: letter.letter });
+  }, []);
   return (
     <>
-      <Header gameEnded={gameEnded} message={message} />
-      <Languages languages={languages} />
-      <LetterBoxes word={word} gameEnded={gameEnded} />
+      <Header gameEnded={state.gameEnded} message={state.message} />
+      <Languages languages={state.languages} />
+      <LetterBoxes word={state.word} gameEnded={state.gameEnded} />
       <Alphabet
         handleLetterGuess={handleLetterGuess}
-        keyboard={keyboard}
-        setKeyboard={setKeyboard}
-        gameEnded={gameEnded}
+        keyboard={state.keyboard}
+        gameEnded={state.gameEnded}
       />
-      <EndButton onClick={resetGame} gameEnded={gameEnded}></EndButton>
+      <EndButton
+        onClick={() => resetGame(dispatch)}
+        gameEnded={state.gameEnded}
+      ></EndButton>
     </>
   );
 }
