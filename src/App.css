@@ -14,6 +14,7 @@
 
 .invisible {
   color: transparent;
+  display: none;
 }
 
 .invisibleMessage {
@@ -129,6 +130,10 @@ header > div > p {
   height: 40px;
   border: none;
   border-bottom: 1px solid #f9f4da;
+}
+
+.letters > button > span {
+  background-color: #323232;
 }
 
 .keyboard {
